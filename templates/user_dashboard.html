@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2 style="color:#37ad53;">My Dashboard</h2>
+<a class="btn btn-primary mb-2" href="{{ url_for('user_parking_lots') }}">Book a Spot</a>
+<h4 class="mt-4">My Active Reservations</h4>
+<table class="table bg-white">
+    <tr>
+        <th>Lot</th> <th>Spot</th> <th>Check-in</th> <th>Action</th>
+    </tr>
+    {% for r in reservations %}
+    {% if not r.end_time %}
+    <tr>
+        <td>{{ r.spot.lot.name }}</td>
+        <td>{{ r.spot.id }}</td>
+        <td>{{ r.start_time.strftime('%Y-%m-%d %H:%M:%S') }}</td>
+        <td>
+            <form action="{{ url_for('vacate_spot', reservation_id=r.id) }}" method="post">
+                <button class="btn btn-danger btn-sm" type="submit">Vacate</button>
+            </form>
+        </td>
+    </tr>
+    {% endif %}
+    {% endfor %}
+</table>
+<a class="btn btn-secondary mt-2" href="{{ url_for('reservation_history') }}">Reservation History</a>
+{% endblock %}

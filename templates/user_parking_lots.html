@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2 class="mb-4" style="color:#37ad53;">Book a Parking Lot</h2>
+<table class="table bg-white">
+<tr>
+    <th>Name</th>
+    <th>Address</th>
+    <th>Available Spots</th>
+    <th>Price/hr</th>
+    <th>Reserve</th>
+</tr>
+{% for lot in lots %}
+<tr>
+    <td>{{ lot.name }}</td>
+    <td>{{ lot.address }}</td>
+    <td>{{ lot.spots|selectattr("status","equalto","A")|list|length }}</td>
+    <td>{{ lot.price_per_hour }}</td>
+    <td>
+    {% if lot.spots|selectattr("status","equalto","A")|list|length > 0 %}
+      <form action="{{ url_for('reserve_spot', lot_id=lot.id) }}" method="post">
+        <button class="btn btn-primary btn-sm" type="submit">Reserve</button>
+      </form>
+    {% else %}
+      <span class="badge bg-danger">Full</span>
+    {% endif %}
+    </td>
+</tr>
+{% endfor %}
+</table>
+{% endblock %}

@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="card w-50 mx-auto p-4 mt-4">
+    <h3 class="mb-3 text-center" style="color: #37ad53;">Create a Parkee Account</h3>
+    <form method="post">
+        <div class="mb-3">
+            <label>Username:</label>
+            <input type="text" class="form-control" name="Fname" required>
+        </div>
+        <div class="mb-3">
+            <label>Password:</label>
+            <input type="password" class="form-control" name="password" required>
+        </div>
+        {% if error %}
+            <div class="alert alert-danger">{{ error }}</div>
+        {% endif %}
+        <button type="submit" class="btn btn-primary w-100">Sign Up</button>
+    </form>
+</div>
+{% endblock %}
+

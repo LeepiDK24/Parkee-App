@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="text-center">
+    <h2>Welcome to Parkee</h2>
+    <p>Find, reserve, and manage your parking with ease.</p>
+    <a class="btn btn-primary mt-3 px-5" href="{{ url_for('login') }}">Login</a>
+    <a class="btn btn-outline-primary mt-3 px-5" href="{{ url_for('signup') }}">Sign Up</a>
+</div>
+{% endblock %}
+
+

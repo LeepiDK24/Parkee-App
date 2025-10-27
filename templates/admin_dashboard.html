@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2 style="color: #37ad53;">Admin Dashboard</h2>
+<a class="btn btn-success mb-3" href="{{ url_for('create_parking_lot') }}">New Parking Lot</a>
+<h3>Parking Lots</h3>
+<table class="table bg-white">
+    <thead>
+        <tr>
+            <th>Name</th><th>Address</th><th>Pin</th>
+            <th>Price/hr</th><th>Total Spots</th><th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for lot in lots %}
+        <tr>
+            <td>{{ lot.name }}</td>
+            <td>{{ lot.address }}</td>
+            <td>{{ lot.pin_code }}</td>
+            <td>{{ lot.price_per_hour }}</td>
+            <td>{{ lot.max_spots }}</td>
+            <td>
+                <a class="btn btn-warning btn-sm" href="{{ url_for('edit_parking_lot', lot_id=lot.id) }}">Edit</a>
+                <form method="post" action="{{ url_for('delete_parking_lot', lot_id=lot.id) }}" style="display:inline;">
+                    <button class="btn btn-danger btn-sm" type="submit">Delete</button>
+                </form>
+            </td>
+        </tr>
+        <tr><td colspan="6">
+            {% for spot in lot.spots %}
+                <span class="badge {% if spot.status=='A' %}bg-success{% else %}bg-danger{% endif %} mx-1 my-1">
+                    #{{ spot.id }} {{ "Available" if spot.status=="A" else "Occupied" }}
+                </span>
+            {% endfor %}
+        </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table class="table">
+{% for lot in lots %}
+  <h2>Parking Lot: {{ lot.name }}</h2>
+  <table>
+    <tr>
+      <th>Spot ID</th>
+      <th>Status</th>
+      <th>User</th>
+    </tr>
+    {% for spot in lot.spots %}
+      <tr>
+        <td>{{ spot.id }}</td>
+        <td>{{ 'Occupied' if spot.status == 'O' else 'Available' }}</td>
+        {% if spot.status == 'O' %}
+          {% set res = spot.reservations|selectattr('end_time', 'equalto', None)|first %}
+          <td>{{ res.user.username if res else 'Unknown' }}</td>
+        {% else %}
+          <td>--</td>
+        {% endif %}
+      </tr>
+    {% endfor %}
+  </table>
+{% endfor %}
+
+<h3>Registered Users</h3>
+<ul>
+    {% for user in users %}
+        <li>{{ user.username }}</li>
+    {% endfor %}
+</ul>
+{% endblock %}

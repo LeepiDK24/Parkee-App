@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Parkee - Park with Ease</title>
+    <!-- Use Bootstrap for layout, but internal CSS will style the branding -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css">
+    <link rel="icon" type="image/png" href="/static/logo.png">
+
+    <style>
+        body {
+            background: #f8faf8;
+            font-family: 'Segoe UI', Arial, sans-serif;
+        }
+        .navbar {
+            background: #37ad53 !important;
+        }
+        .navbar-brand, .nav-link, .navbar-text {
+            color: #fff !important;
+            font-weight: bold;
+            font-size: 1.3em;
+            letter-spacing: 0.03em;
+        }
+        .parkee-brand {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 2rem;
+        }
+        .parkee-logo {
+            width: 64px;
+            height: 64px;
+            border-radius: 16px;
+            background: #37ad53;
+            display: inline-block;
+            overflow: hidden;
+            margin-right: 18px;
+        }
+        .parkee-appname {
+            color: #333;
+            font-size: 2rem;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+        }
+        .parkee-tagline {
+            color: #656565;
+            font-size: 1.1rem;
+            font-weight: 500;
+        }
+        .btn-primary {
+            background: #37ad53 !important;
+            border: none;
+        }
+        .btn-success, .bg-success, .badge.bg-success {
+            background: #37ad53 !important;
+        }
+        .btn-danger, .bg-danger, .badge.bg-danger {
+            background: #a03034 !important;
+        }
+        .table th, .table td { vertical-align: middle !important;}
+        .card { border-radius: 12px; box-shadow: 0 1px 8px #eee }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container">
+            <a class="navbar-brand" href="/">
+                <img src="/static/logo.png" alt="Parkee Logo" width="36" height="36" style="margin-right:10px;">Parkee
+            </a>
+            <ul class="navbar-nav ms-auto">
+                {% if session.user_id %}
+                  <li class="nav-item"><span class="nav-link">Welcome!</span></li>
+                  <li class="nav-item"><a class="nav-link" href="{{ url_for('logout') }}">Logout</a></li>
+                {% else %}
+                  <li class="nav-item"><a class="nav-link" href="{{ url_for('login') }}">Login</a></li>
+                  <li class="nav-item"><a class="nav-link" href="{{ url_for('signup') }}">Sign Up</a></li>
+                {% endif %}
+            </ul>
+        </div>
+    </nav>
+    <div class="container mt-4">
+        <div class="parkee-brand">
+            <span class="parkee-logo">
+                <img src="/static/logo.png" alt="Parkee Logo" width="64" height="64" style="display:block;">
+            </span>
+            <div>
+                <span class="parkee-appname">Parkee</span><br>
+                <span class="parkee-tagline">Park with ease</span>
+            </div>
+        </div>
+        {% block content %}{% endblock %}
+    </div>
+</body>
+</html>
